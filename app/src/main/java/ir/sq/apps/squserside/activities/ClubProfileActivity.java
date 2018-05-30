@@ -17,15 +17,20 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.ClubHandler;
+import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.models.Club;
+import ir.sq.apps.squserside.uiControllers.ClubImageLoadingService;
 import ir.sq.apps.squserside.uiControllers.TagsListAdapter;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import ir.sq.apps.squserside.utils.Constants;
+import ss.com.bannerslider.Slider;
+import ss.com.bannerslider.viewholder.ImageSlideViewHolder;
 
 public class ClubProfileActivity extends AppCompatActivity {
     @BindView(R.id.club_tags_recyclerview)
     RecyclerView clubTagsRecyclerview;
-    private Club club;
+    @BindView(R.id.imagesBannerSlider)
+    Slider imagesBannerSlider;
     @BindView(R.id.imgClub)
     ImageView imgClub;
     @BindView(R.id.txtClubName)
@@ -38,6 +43,8 @@ public class ClubProfileActivity extends AppCompatActivity {
     LinearLayout latoutStars;
     @BindView(R.id.btnReserve)
     Button btnReserve;
+
+    private Club club;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,12 @@ public class ClubProfileActivity extends AppCompatActivity {
         }
         setFonts();
         setFields(club);
+        setSlider();
+    }
+
+    private void setSlider() {
+        Slider.init(new ClubImageLoadingService(this));
+        imagesBannerSlider.setAdapter(new MySliderAdapter());
     }
 
     private void setFonts() {
@@ -63,13 +76,16 @@ public class ClubProfileActivity extends AppCompatActivity {
     }
 
     public void setFields(Club club) {
-        imgClub.setImageBitmap(club.getImages().get(0));
+        if (club.getImages().size() > 0) {
+            imgClub.setImageBitmap(club.getImages().get(0));
+        }
         txtClubName.setText(club.getName());
         txtClubLoc.setText(club.getAddress());
         txtClubPrice.setText(club.getPrice());
         setStars(club.getRate());
         setTags();
     }
+
 
     public void setTags() {
         Log.i("TAGS", club.getTags().size() + "");
@@ -108,5 +124,18 @@ public class ClubProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.btnReserve)
     public void onViewClicked() {
+    }
+
+    private class MySliderAdapter extends ss.com.bannerslider.adapters.SliderAdapter {
+
+        @Override
+        public int getItemCount() {
+            return club.getNameImages().size();
+        }
+
+        @Override
+        public void onBindImageSlide(int position, ImageSlideViewHolder viewHolder) {
+            viewHolder.bindImageSlide(UrlHandler.getImageClubURL.getUrl() + club.getImageName(position));
+        }
     }
 }

@@ -30,10 +30,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        setClubs();
+        getClubsFromServer();
     }
 
-    public void setClubs() {
+    public void getClubsFromServer() {
         AndroidNetworking.get(UrlHandler.getAllClubsURL.getUrl())
                 .build().getAsJSONObject(new JSONObjectRequestListener() {
             @Override
@@ -69,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
                 JSONArray imagesJsonArray = clubObject.getJSONArray("images");
                 JSONArray tagsJsonArray = clubObject.getJSONArray("tagList");
                 for (int j = 0; j < tagsJsonArray.length(); j++) {
-                    club.addTags(String.valueOf(tagsJsonArray.get(j)));
+                    club.addTags(tagsJsonArray.getJSONObject(j).getString("name"));
                 }
                 for (int j = 0; j < imagesJsonArray.length(); j++) {
                     String img = ((JSONObject) imagesJsonArray.get(j)).getString("name");

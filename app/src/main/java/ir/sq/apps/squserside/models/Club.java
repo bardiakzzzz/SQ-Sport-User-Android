@@ -33,6 +33,11 @@ public class Club implements Serializable {
     private String closeTime;
 
     private List<Bitmap> images;
+
+    public List<String> getNameImages() {
+        return nameImages;
+    }
+
     private List<String> nameImages;
     private List<String> tags;
 
