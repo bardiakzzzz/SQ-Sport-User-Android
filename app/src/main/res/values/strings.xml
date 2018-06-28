@@ -7,6 +7,9 @@
     <string name="string_email">ایمیل</string>
     <string name="button_signUp">ثبت نام</string>
     <string name="button_signin">ورود</string>
-    <string name="string_wrong_username_or_password">نام کاربری یا رمز عبور اشتباه است</string>
+    <string name="string_username_exists"> نام کاربری تکراری است</string>
+    <string name="string_email_exists"> ایمیل تکراری است</string>
     <string name="empty_field_error_meesage">این فیلد نمی تواند خالی باشد</string>
+    <string name="string_wrong_username_or_password">نام کاربری یا رمز عبور اشتباه است</string>
+    <string name="user_info">user info</string>
 </resources>

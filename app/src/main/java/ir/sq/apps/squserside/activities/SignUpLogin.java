@@ -1,6 +1,8 @@
 package ir.sq.apps.squserside.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -10,8 +12,10 @@ import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,6 +34,7 @@ import butterknife.ButterKnife;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
+import ir.sq.apps.squserside.utils.Constants;
 
 
 public class SignUpLogin extends AppCompatActivity implements View.OnClickListener {
@@ -67,7 +72,10 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
 
     LinearLayout llsignup;
 
+    private static final String TAG_SIGNUP = "SIGN UP";
+    private static final String TAG_SIGNIN = "SIGN IN";
 
+    private SharedPreferences sharedPref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +116,10 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         showSigninForm();
         setFonts();
         setviews();
+        sharedPref = this.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE);
+        if (!sharedPref.getString(Constants.ACCESS_TOKEN, "").isEmpty()) {
+            finish();
+        }
     }
 
     private void emptyErrors() {
@@ -231,45 +243,49 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
     }
 
     private void signIn() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("userName", userName_signin.getText().toString());
-            jsonObject.put("passWord", passWord_signin.getText().toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        hideKeyboard();
         AndroidNetworking.post(UrlHandler.signInUserURL.getUrl())
-                .addJSONObjectBody(jsonObject)
+                .addHeaders("Content-Type", "application/x-www-form-urlencoded")
+                .addBodyParameter("client_id", "trusted-app")
+                .addBodyParameter("client_secret", "secret")
+                .addBodyParameter("grant_type", "password")
+                .addBodyParameter("username", userName_signin.getText().toString())
+                .addBodyParameter("password", passWord_signin.getText().toString())
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            int status = response.getInt("status");
-                            if (status == 1) {
-                                Log.i("SIGNIN", "Done");
-//                                UserHandler.getInstance().setThisUser(new User(userName_signin.getText().toString(), passWord_signin.getText().toString()));
-//                                startActivity(new Intent(SignUpLogin.this, FormActivity.class));
-                            } else {
-                                String errorMessage = getString(R.string.string_wrong_username_or_password);
-                                Snackbar.make(signInbutton, errorMessage, Snackbar.LENGTH_SHORT).show();
-                                emptyFields();
-                                Log.e("SIGNIN", "Not Correct");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                        Log.i(TAG_SIGNIN, "Login response: " + response.toString());
 
+                        String access_token = null;
+
+                        try {
+                            access_token = response.getString(Constants.ACCESS_TOKEN);
+                        } catch (JSONException e) {
+                            Log.e(TAG_SIGNIN, "Login response JSONException: " + e.toString());
+                        }
+
+                        if (access_token == null) {
+                            Log.e(TAG_SIGNIN, "Login response have no access_token parameter.");
+                        } else {
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString(Constants.ACCESS_TOKEN, "Bearer " + access_token);
+                            editor.putString(Constants.USERNAME, userName_signin.getText().toString());
+                            editor.apply();
+
+                            finish();
+                        }
+
+                    }
 
                     @Override
-                    public void onError(ANError error) {
-                        Log.e("SIGN IN", "ERROR: " + error.getErrorBody() + " code : " + error.getErrorCode());
-
+                    public void onError(ANError anError) {
+                        Log.e(TAG_SIGNIN, "Login request error: " + anError.toString());
+                        if (anError.getErrorCode() == 400) {
+                            Snackbar.make(signUpbutton, getString(R.string.string_wrong_username_or_password), Snackbar.LENGTH_SHORT).show();
+                        }
                     }
                 });
-
     }
 
     private void emptyFields() {
@@ -281,43 +297,54 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
     }
 
     private void signUp() {
-        JSONObject jsonObject = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            jsonObject.put("userName", userName_signup.getText().toString());
-            jsonObject.put("passWord", passWord_signup.getText().toString());
-            jsonObject.put("email", email_signup.getText().toString());
-
+            body.put("username", userName_signup.getText().toString());
+            body.put("password", passWord_signup.getText().toString());
+            body.put("email", email_signup.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        AndroidNetworking.post(UrlHandler.signUpUserURL.getUrl())
 
-                .addJSONObjectBody(jsonObject)
+        AndroidNetworking.post(UrlHandler.signUpUserURL.getUrl())
+                .addJSONObjectBody(body)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.i(TAG_SIGNUP, "Signup response: " + response.toString());
+                        String status = null;
                         try {
-                            int status = response.getInt("status");
-                            if (status == 1) {
-                                Log.i("SIGNUP", "Done");
-//                                Toast.makeText(SignUpLogin.this, R.string.string_signup_message_done, Toast.LENGTH_SHORT).show();
-//                                UserHandler.getInstance().setThisUser(new User(userName_signup.getText().toString(), passWord_signup.getText().toString()));
-//                                startActivity(new Intent(SignUpLogin.this, FormActivity.class));
-                            } else
-                                Log.e("SIGNUP", "Error In Response");
+                            status = response.getString(Constants.STATUS);
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e(TAG_SIGNUP, "Signup response JSONException: " + e.toString());
                         }
+                        if (status == null) {
+                            Log.e(TAG_SIGNUP, "Signup response have no status parameter.");
+                        } else if (status.equals(Constants.USERNAME_EXISTS)) {
+                            Snackbar.make(signUpbutton, getString(R.string.string_username_exists), Snackbar.LENGTH_SHORT).show();
+                        } else if (status.equals((Constants.EMAIL_EXISTS))) {
+                            Snackbar.make(signUpbutton, getString(R.string.string_email_exists), Snackbar.LENGTH_SHORT).show();
+                        } else if (status.equals(Constants.OK)) {
+//                            signedUp(username, password);
+                        }
+
                     }
 
                     @Override
-                    public void onError(ANError error) {
-                        Log.e("SIGNUP", "ERROR: " + error.getErrorBody() + " code : " + error.getErrorCode());
+                    public void onError(ANError anError) {
+                        Log.e(TAG_SIGNUP, "Login request error: " + anError.toString());
                     }
                 });
     }
 
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 }
 
