@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SQUserSide</string>
+
+    <string name="title_activity_sign_up_login">SignUpLogin</string>
+    <string name="string_username">نام کاربری</string>
+    <string name="string_password">رمز عبور</string>
+    <string name="string_email">ایمیل</string>
+    <string name="button_signUp">ثبت نام</string>
+    <string name="button_signin">ورود</string>
+    <string name="string_wrong_username_or_password">نام کاربری یا رمز عبور اشتباه است</string>
+    <string name="empty_field_error_meesage">این فیلد نمی تواند خالی باشد</string>
 </resources>

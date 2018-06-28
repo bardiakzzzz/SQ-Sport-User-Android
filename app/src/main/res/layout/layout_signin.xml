@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A6eca60f"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="48dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_login" />
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/userName_signin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorBlackTrans">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/userName_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/string_username"
+            android:textColor="@color/colorBlackTrans"
+            android:textColorHint="@color/colorBlackTrans" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passWord_signin_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textColorHint="@color/colorBlackTrans">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/passWord_signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/string_password"
+            android:inputType="textPassword"
+            android:textColor="@color/colorBlackTrans"
+            android:textColorHint="@color/colorBlackTrans" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/signIn_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:text="@string/button_signin"
+        android:textColor="@color/colorBlackTrans"
+        android:onClick="onClick"
+        android:textSize="30sp" />
+</LinearLayout>
