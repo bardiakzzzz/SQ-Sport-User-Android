@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:background="@color/colorBlackTrans"
+        android:background="@android:color/white"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -28,7 +28,7 @@
             app:layout_widthPercent="85%"
             android:layout_alignParentStart="true">
 
-            <ir.sq.apps.sqclubside.uiControllers.VerticalTextView
+            <ir.sq.apps.squserside.uiControllers.VerticalTextView
                 android:id="@+id/tvSigninInvoker"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -59,7 +59,7 @@
             app:layout_widthPercent="15%"
             android:layout_alignParentEnd="true">
 
-            <ir.sq.apps.sqclubside.uiControllers.VerticalTextView
+            <ir.sq.apps.squserside.uiControllers.VerticalTextView
                 android:id="@+id/tvSignupInvoker"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
