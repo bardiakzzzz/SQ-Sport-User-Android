@@ -8,8 +8,8 @@ import android.util.Log;
 
 public enum UrlHandler {
     getImageClubURL(""),
-    signUpUserURL("users"),
-    signInUserURL("users/login"),
+    signUpUserURL("users/sign-up"),
+    signInUserURL("oauth/token"),
     getAllClubsURL("api/clubs");
 
     private String url;

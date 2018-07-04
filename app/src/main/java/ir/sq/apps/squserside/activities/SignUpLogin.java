@@ -247,7 +247,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         AndroidNetworking.post(UrlHandler.signInUserURL.getUrl())
                 .addHeaders("Content-Type", "application/x-www-form-urlencoded")
                 .addBodyParameter("client_id", "trusted-app")
-                .addBodyParameter("client_secret", "secret")
+//                .addBodyParameter("client_secret", "secret")
                 .addBodyParameter("grant_type", "password")
                 .addBodyParameter("username", userName_signin.getText().toString())
                 .addBodyParameter("password", passWord_signin.getText().toString())
@@ -272,7 +272,6 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
                             editor.putString(Constants.ACCESS_TOKEN, "Bearer " + access_token);
                             editor.putString(Constants.USERNAME, userName_signin.getText().toString());
                             editor.apply();
-
                             finish();
                         }
 
@@ -280,7 +279,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
 
                     @Override
                     public void onError(ANError anError) {
-                        Log.e(TAG_SIGNIN, "Login request error: " + anError.toString());
+                        Log.e(TAG_SIGNIN, "Login request error: " + anError.getErrorBody() + "\n" + anError.getErrorCode());
                         if (anError.getErrorCode() == 400) {
                             Snackbar.make(signUpbutton, getString(R.string.string_wrong_username_or_password), Snackbar.LENGTH_SHORT).show();
                         }
