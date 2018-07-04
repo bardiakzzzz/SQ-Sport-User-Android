@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sq.apps.squserside.R;
+import ir.sq.apps.squserside.controllers.RequestHandler;
 import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import ir.sq.apps.squserside.utils.Constants;
@@ -72,15 +73,16 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
 
     LinearLayout llsignup;
 
+
     private static final String TAG_SIGNUP = "SIGN UP";
     private static final String TAG_SIGNIN = "SIGN IN";
 
     private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_login);
-
         ButterKnife.bind(this);
 
         llSignin = findViewById(R.id.llSignin);
@@ -116,10 +118,11 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         showSigninForm();
         setFonts();
         setviews();
-        sharedPref = this.getSharedPreferences(getString(R.string.user_info), Context.MODE_PRIVATE);
+        sharedPref = this.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
         if (!sharedPref.getString(Constants.ACCESS_TOKEN, "").isEmpty()) {
-            finish();
+//            finish();
         }
+
     }
 
     private void emptyErrors() {
@@ -272,7 +275,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
                             editor.putString(Constants.ACCESS_TOKEN, "Bearer " + access_token);
                             editor.putString(Constants.USERNAME, userName_signin.getText().toString());
                             editor.apply();
-                            finish();
+                            RequestHandler.getUser(SignUpLogin.this);
                         }
 
                     }

@@ -5,6 +5,8 @@ package ir.sq.apps.squserside.utils;
  */
 
 public class Constants {
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String USER_INFO = "user_info";
     public static String CLUB_INTENT_NAME = "Club";
     public static final String OK = "1", USERNAME_EXISTS = "2", EMAIL_EXISTS = "3", NOT_FOUND = "4", WRONG_PASSWORD = "6";
     public static int TYPE_HOUR = 0;
