@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_receipt"
+            android:icon="@drawable/ic_receipt_black_24dp"
+            android:title="@string/nav_receipt" />
+
+        <item
+            android:id="@+id/nav_transactions"
+            android:icon="@drawable/ic_credit_card_black_24dp"
+            android:title="@string/nav_transactions" />
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_account_box_black_24dp"
+                android:title="@string/nav_profile" />
+            <item
+                android:id="@+id/nav_log_out"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="@string/nav_log_out" />
+
+        </menu>
+    </item>
+
+</menu>

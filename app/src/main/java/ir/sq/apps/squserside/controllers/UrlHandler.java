@@ -8,10 +8,10 @@ import android.util.Log;
 
 public enum UrlHandler {
     getImageClubURL(""),
-    signUpUserURL("users/sign-up"),
+    signUpUserURL("api/users/sign-up"),
     signInUserURL("oauth/token"),
     getAllClubsURL("api/clubs"),
-    getUserURL("users");
+    getUserURL("api/users");
 
     private String url;
     private String baseUrl = "http://192.168.43.82:8080/";

@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingTop="15dp"
-                android:text="@string/button_signin"
+                android:text="@string/button_sign_in"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"

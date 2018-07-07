@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:text="@string/button_signin"
+        android:text="@string/button_sign_in"
         android:textColor="@color/colorBlackTrans"
         android:onClick="onClick"
         android:textSize="30sp" />

@@ -120,7 +120,13 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         setviews();
         sharedPref = this.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
         if (!sharedPref.getString(Constants.ACCESS_TOKEN, "").isEmpty()) {
-//            finish();
+            finish();
+            RequestHandler.getUser(SignUpLogin.this, new RequestHandler.OnResponseTransfer() {
+                @Override
+                public Intent go() {
+                    return new Intent(SignUpLogin.this, NavHolderActivity.class);
+                }
+            });
         }
 
     }
@@ -207,7 +213,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         Boolean flag = true;
         for (EditText e : signUPviews) {
             if (e.getText().toString().length() == 0) {
-                e.setError(getString(R.string.empty_field_error_meesage));
+                e.setError(getString(R.string.empty_field_error_message));
                 flag = false;
             }
         }
@@ -218,7 +224,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         Boolean flag = true;
         for (EditText e : signInViews) {
             if (e.getText().toString().length() == 0) {
-                e.setError(getString(R.string.empty_field_error_meesage));
+                e.setError(getString(R.string.empty_field_error_message));
                 flag = false;
             }
         }
@@ -239,6 +245,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
                     signUpbutton.startAnimation(clockwise);
                 if (checkEmptyFieldsSignUp()) {
                     signUp();
+                    emptyFields();
                 }
                 break;
         }
@@ -275,7 +282,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
                             editor.putString(Constants.ACCESS_TOKEN, "Bearer " + access_token);
                             editor.putString(Constants.USERNAME, userName_signin.getText().toString());
                             editor.apply();
-                            RequestHandler.getUser(SignUpLogin.this);
+                            getUser();
                         }
 
                     }
@@ -301,8 +308,8 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
     private void signUp() {
         JSONObject body = new JSONObject();
         try {
-            body.put("username", userName_signup.getText().toString());
-            body.put("password", passWord_signup.getText().toString());
+            body.put("userName", userName_signup.getText().toString());
+            body.put("passWord", passWord_signup.getText().toString());
             body.put("email", email_signup.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -328,6 +335,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
                         } else if (status.equals((Constants.EMAIL_EXISTS))) {
                             Snackbar.make(signUpbutton, getString(R.string.string_email_exists), Snackbar.LENGTH_SHORT).show();
                         } else if (status.equals(Constants.OK)) {
+                            Snackbar.make(signUpbutton, getString(R.string.string_sign_up_success_full), Snackbar.LENGTH_SHORT).show();
 //                            signedUp(username, password);
                         }
 
@@ -348,5 +356,13 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    public void getUser() {
+        RequestHandler.getUser(SignUpLogin.this, new RequestHandler.OnResponseTransfer() {
+            @Override
+            public Intent go() {
+                return new Intent(SignUpLogin.this, NavHolderActivity.class);
+            }
+        });
+    }
 }
 

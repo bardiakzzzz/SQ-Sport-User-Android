@@ -9,6 +9,12 @@ public class Receipt {
     private String clubName;
     private String clubAddress;
 
+    public Receipt(int price, String date, String clubName) {
+        this.price = price;
+        this.date = date;
+        this.clubName = clubName;
+    }
+
     public int getPrice() {
         return price;
     }

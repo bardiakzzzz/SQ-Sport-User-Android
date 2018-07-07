@@ -1,6 +1,7 @@
 package ir.sq.apps.squserside.controllers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -16,23 +17,28 @@ import ir.sq.apps.squserside.utils.Constants;
 
 public class RequestHandler {
     private static final String TAG = "Request Class";
-    private static SharedPreferences sharedPref;
 
-    public static void getUser(Context context) {
+    public interface OnResponseTransfer {
+        Intent go();
+    }
+
+    public static void getUser(final Context context, final OnResponseTransfer onResponseTransfer) {
 
         final User user = new User();
-        String access_token = getToken(context);
+        String access_token = TokenHandler.getToken(context);
         AndroidNetworking.get(UrlHandler.getUserURL.getUrl())
                 .addHeaders(Constants.AUTHORIZATION, access_token)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.i("Test", "Object" + response.toString());
-                            JSONObject userObject = response.getJSONArray("users").getJSONObject(0);
+                            JSONObject userObject = response.getJSONObject("object");
                             user.setUserName(userObject.getString("userName"));
                             user.setEmail(userObject.getString("email"));
-                            Log.i("Test", user.getUserName().toString());
+                            user.setName("محمد");
+                            UserHandler.getInstance().setUser(user);
+                            Intent intent = onResponseTransfer.go();
+                            context.startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -44,27 +50,5 @@ public class RequestHandler {
                     }
                 });
     }
-
-    private static String getUserName(Context context) {
-        sharedPref = context.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
-        String userName = sharedPref.getString(Constants.USERNAME, "");
-        if (userName.isEmpty()) {
-            Log.e(TAG, "NO UserName PRESENTED!");
-            return "";
-        }
-        return userName;
-    }
-
-    public static String getToken(Context context) {
-
-        sharedPref = context.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
-        String access_token = sharedPref.getString(Constants.ACCESS_TOKEN, "");
-        if (access_token.isEmpty()) {
-            Log.e(TAG, "NO ACCESS_TOKEN PRESENTED!");
-            return "";
-        }
-        return access_token;
-    }
-
 }
 

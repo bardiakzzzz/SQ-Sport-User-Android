@@ -6,10 +6,45 @@
     <string name="string_password">رمز عبور</string>
     <string name="string_email">ایمیل</string>
     <string name="button_signUp">ثبت نام</string>
-    <string name="button_signin">ورود</string>
+    <string name="button_sign_in">ورود</string>
     <string name="string_username_exists"> نام کاربری تکراری است</string>
     <string name="string_email_exists"> ایمیل تکراری است</string>
-    <string name="empty_field_error_meesage">این فیلد نمی تواند خالی باشد</string>
+    <string name="string_sign_up_success_full">ثبت نام با موفقیت انجام شد</string>
+    <string name="empty_field_error_message">این فیلد نمی تواند خالی باشد</string>
     <string name="string_wrong_username_or_password">نام کاربری یا رمز عبور اشتباه است</string>
     <string name="user_info">user info</string>
+    <string name="drawer_item_compact_header">header</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <string name="nav_home">خانه</string>
+    <string name="nav_receipt">رسید رزرو ها</string>
+    <string name="nav_transactions">تراکنش ها</string>
+    <string name="nav_log_out">خروج از حساب</string>
+    <string name="nav_profile">پروفایل کاربری</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>خانه</item>
+        <item>رسید ها</item>
+        <item>تراکنش ها</item>
+    </string-array>
+
+    <string name="activity_title_about_us">About Us</string>
+    <string name="activity_title_privacy_policy">Privacy Policy</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_mark_all_read">Mark All as Read</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_title_string">نام</string>
+    <string name="user_name_title_string">نام کاربری</string>
+    <string name="email_title_string">ایمیل</string>
+    <string name="balance_title_string">اعتبار شما :</string>
+    <string name="currency_string">تومان</string>
 </resources>
