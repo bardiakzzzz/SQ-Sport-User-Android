@@ -10,8 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.ClubHandler;
-import ir.sq.apps.squserside.models.Club;
-import ir.sq.apps.squserside.uiControllers.ClubsListAdapter;
+import ir.sq.apps.squserside.adapters.ClubsListAdapter;
 import ir.sq.apps.squserside.utils.Constants;
 
 public class ClubsListActivity extends AppCompatActivity {

@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Log.i("LOG", response.toString());
                 ClubHandler.getInstance().setClubs(parseClubs(response));
-                startActivity(new Intent(SplashActivity.this, ClubsListActivity.class));
+                startActivity(new Intent(SplashActivity.this, NavHolderActivity.class));
             }
 
             @Override

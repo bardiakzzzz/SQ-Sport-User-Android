@@ -124,7 +124,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
             RequestHandler.getUser(SignUpLogin.this, new RequestHandler.OnResponseTransfer() {
                 @Override
                 public Intent go() {
-                    return new Intent(SignUpLogin.this, NavHolderActivity.class);
+                    return new Intent(SignUpLogin.this, SplashActivity.class);
                 }
             });
         }
@@ -360,7 +360,7 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         RequestHandler.getUser(SignUpLogin.this, new RequestHandler.OnResponseTransfer() {
             @Override
             public Intent go() {
-                return new Intent(SignUpLogin.this, NavHolderActivity.class);
+                return new Intent(SignUpLogin.this, SplashActivity.class);
             }
         });
     }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SQUserSide</string>
 
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAbBGYVuIHU5bHfzop8fNSv7yPRGEm7krE</string>
+
     <string name="title_activity_sign_up_login">SignUpLogin</string>
     <string name="string_username">نام کاربری</string>
     <string name="string_password">رمز عبور</string>
@@ -40,6 +42,7 @@
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_title_string">نام</string>
@@ -47,4 +50,9 @@
     <string name="email_title_string">ایمیل</string>
     <string name="balance_title_string">اعتبار شما :</string>
     <string name="currency_string">تومان</string>
+
 </resources>
+
+
+
+

@@ -1,11 +1,10 @@
-package ir.sq.apps.squserside.uiControllers;
+package ir.sq.apps.squserside.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.androidnetworking.widget.ANImageView;
@@ -17,6 +16,7 @@ import butterknife.ButterKnife;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.models.Club;
+import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import me.grantland.widget.AutofitTextView;
 
 /**
@@ -104,7 +104,8 @@ public class ClubsListAdapter extends
         holder.txtRate.setText(rate + "/5");
         holder.bg.setDefaultImageResId(R.drawable.no_image);
         holder.bg.setErrorImageResId(R.drawable.failed_image);
-        holder.bg.setImageUrl(UrlHandler.getImageClubURL.getUrl() + item.getImageName(0));
+        if (item.getNameImages().size() > 0 && item.getImageName(0) != null)
+            holder.bg.setImageUrl(UrlHandler.getImageClubURL.getUrl() + item.getImageName(0));
     }
 
 
