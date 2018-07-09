@@ -38,4 +38,10 @@ public class TokenHandler {
         }
         return userName;
     }
+
+    public static boolean hasToken(Context context) {
+        sharedPref = context.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
+        String token = sharedPref.getString(Constants.ACCESS_TOKEN, "");
+        return !token.isEmpty() && token.length() > 0;
+    }
 }

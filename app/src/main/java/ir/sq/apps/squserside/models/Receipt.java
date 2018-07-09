@@ -9,10 +9,18 @@ public class Receipt {
     private String clubName;
     private String clubAddress;
 
-    public Receipt(int price, String date, String clubName) {
+    public Receipt(int price, String date, String time, String clubName, String clubAddress) {
         this.price = price;
         this.date = date;
+        this.time = time;
         this.clubName = clubName;
+        this.clubAddress = clubAddress;
+    }
+
+    public Receipt(int i, String s, String s1) {
+        price = i;
+        date = s;
+        clubName = s1;
     }
 
     public int getPrice() {
@@ -42,6 +50,7 @@ public class Receipt {
     public String getClubName() {
         return clubName;
     }
+
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }

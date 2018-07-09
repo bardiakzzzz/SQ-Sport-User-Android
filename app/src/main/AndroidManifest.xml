@@ -21,7 +21,7 @@
         <activity android:name=".activities.ClubsListActivity" />
         <activity android:name=".activities.ClubProfileActivity" />
         <activity android:name=".activities.SplashActivity" />
-        <activity android:name=".activities.SignUpLogin" >
+        <activity android:name=".activities.SignUpLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +32,7 @@
 
         </activity>
         <activity android:name=".activities.UserProfileActivity" />
+        <activity android:name=".activities.ReserveActivity"></activity>
     </application>
 
 </manifest>

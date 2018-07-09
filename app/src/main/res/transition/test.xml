@@ -1,4 +1,5 @@
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="400"
     android:transitionOrdering="sequential">
     <fade android:fadingMode="fade_out" />
     <changeBounds />

@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.RequestHandler;
+import ir.sq.apps.squserside.controllers.TokenHandler;
 import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import ir.sq.apps.squserside.utils.Constants;
@@ -119,7 +120,8 @@ public class SignUpLogin extends AppCompatActivity implements View.OnClickListen
         setFonts();
         setviews();
         sharedPref = this.getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
-        if (!sharedPref.getString(Constants.ACCESS_TOKEN, "").isEmpty()) {
+        if (TokenHandler.hasToken(this)) {
+            Log.i(TAG_SIGNIN, "app has a valid token!");
             finish();
             RequestHandler.getUser(SignUpLogin.this, new RequestHandler.OnResponseTransfer() {
                 @Override

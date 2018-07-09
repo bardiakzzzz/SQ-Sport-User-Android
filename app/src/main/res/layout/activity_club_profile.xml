@@ -126,11 +126,11 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/btnReserve"
+                android:id="@+id/btnShowPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_color_button"
-                android:text="رزرو سالن"
+                android:text="مشاهده سانس ها"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textColor="#FFF"
                 android:textStyle="bold" />

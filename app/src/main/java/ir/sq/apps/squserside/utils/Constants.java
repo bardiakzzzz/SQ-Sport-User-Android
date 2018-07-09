@@ -19,4 +19,6 @@ public class Constants {
             PROFILE_PHOTO = "profilePhoto", NAME = "name", LAT = "latitude", LON = "longitude",
             OLD_PASSWORD = "oldPassword", NEW_PASSWORD = "newPassword", POST_ID = "postId", ID = "id",
             SEARCH = "string";
+    public static  final int PLAN_AVAILABLE = 0,PLAN_RESERVED = 1, PLAN_NOTAVAILABLE = 2;
+
 }

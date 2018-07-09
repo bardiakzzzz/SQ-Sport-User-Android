@@ -1,5 +1,6 @@
 package ir.sq.apps.squserside.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -40,20 +41,21 @@ public class ClubProfileActivity extends AppCompatActivity {
     @BindView(R.id.txtClubAdress)
     TextView txtClubLoc;
     @BindView(R.id.latoutStars)
-    LinearLayout latoutStars;
-    @BindView(R.id.btnReserve)
-    Button btnReserve;
+    LinearLayout layoutStars;
+    @BindView(R.id.btnShowPlan)
+    Button btnShowPlan;
 
     private Club club;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_profile);
         ButterKnife.bind(this);
-        int pos = getIntent().getIntExtra(Constants.CLUB_INTENT_NAME, -1);
-        if (pos != -1) {
-            club = ClubHandler.getInstance().getClubs().get(pos);
+        id = getIntent().getIntExtra(Constants.CLUB_INTENT_NAME, -1);
+        if (id != -1) {
+            club = ClubHandler.getInstance().getClubs().get(id);
         } else {
             Log.e("Intent Error", "Position Is -1");
             finish();
@@ -72,7 +74,7 @@ public class ClubProfileActivity extends AppCompatActivity {
         txtClubLoc.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
         txtClubName.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
         txtClubPrice.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
-        btnReserve.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
+        btnShowPlan.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
     }
 
     public void setFields(Club club) {
@@ -105,25 +107,28 @@ public class ClubProfileActivity extends AppCompatActivity {
             ImageView img = new ImageView(this);
             img.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             img.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_yellow_600_18dp));
-            latoutStars.addView(img);
+            layoutStars.addView(img);
         }
         if (rate - t != 0) {
             ImageView img = new ImageView(this);
             img.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             img.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_half_yellow_600_18dp));
-            latoutStars.addView(img);
+            layoutStars.addView(img);
             t++;
         }
         for (int i = 0; i < 5 - t; i++) {
             ImageView img = new ImageView(this);
             img.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             img.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_star_border_yellow_600_18dp));
-            latoutStars.addView(img);
+            layoutStars.addView(img);
         }
     }
 
-    @OnClick(R.id.btnReserve)
+    @OnClick(R.id.btnShowPlan)
     public void onViewClicked() {
+        Intent intent = new Intent(ClubProfileActivity.this, ReserveActivity.class);
+        intent.putExtra(Constants.CLUB_INTENT_NAME, id);
+        startActivity(intent);
     }
 
     private class MySliderAdapter extends ss.com.bannerslider.adapters.SliderAdapter {

@@ -23,6 +23,7 @@ import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.ClubHandler;
 import ir.sq.apps.squserside.controllers.UrlHandler;
 import ir.sq.apps.squserside.models.Club;
+import ir.sq.apps.squserside.models.Plan;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -66,6 +67,8 @@ public class SplashActivity extends AppCompatActivity {
                 Double latitude = clubObject.getDouble("latitude");
                 Double longtitude = clubObject.getDouble("longtitude");
                 Club club = new Club(ownerUserName, name, owner, telePhoneNumber, cellPhoneNumber, address, latitude, longtitude, type);
+                club.setId(clubObject.getLong("id"));
+                setClubPlans(club, clubObject.getJSONArray("weeklyPlan"));
                 JSONArray imagesJsonArray = clubObject.getJSONArray("images");
                 JSONArray tagsJsonArray = clubObject.getJSONArray("tagList");
                 for (int j = 0; j < tagsJsonArray.length(); j++) {
@@ -82,6 +85,20 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return clubs;
+    }
+
+    private void setClubPlans(Club club, JSONArray plansArray) throws JSONException {
+        for (int j = 0; j < plansArray.length(); j++) {
+            JSONObject receiptObject = plansArray.getJSONObject(j);
+            int price = receiptObject.getInt("price");
+            int status = receiptObject.getInt("status");
+            int day = receiptObject.getInt("day");
+            long id = receiptObject.getLong("id");
+            String date = receiptObject.getString("date");
+            String time = receiptObject.getString("time");
+            Plan plan = new Plan(id, price, status, day, date, time);
+            club.addPlan(plan);
+        }
     }
 
     private void getImageFrom(final Club club, final String imageUrl) {

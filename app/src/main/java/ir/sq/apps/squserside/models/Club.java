@@ -9,10 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Mohammad on 5/27/2018.
- */
-
 public class Club implements Serializable {
     //TODO Complete This Class
     private int type;
@@ -22,6 +18,7 @@ public class Club implements Serializable {
     private Double longtitude;
     private Double rate;
 
+    private Long id;
     private String name;
     private String ownerUserName;
     private String owner;
@@ -31,7 +28,7 @@ public class Club implements Serializable {
     private String openTime;
     private String price;
     private String closeTime;
-
+    private List<Plan> plans;
     private List<Bitmap> images;
 
     public List<String> getNameImages() {
@@ -56,6 +53,7 @@ public class Club implements Serializable {
         nameImages = new ArrayList<>();
         this.rate = 4.5;
         this.price = "5000 تومان";
+        plans = new ArrayList<>();
     }
 
     public void addImages(List<Bitmap> images) {
@@ -217,5 +215,21 @@ public class Club implements Serializable {
 
     public String getImageName(int pos) {
         return nameImages.get(pos);
+    }
+
+    public void addPlan(Plan plan) {
+        plans.add(plan);
+    }
+
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

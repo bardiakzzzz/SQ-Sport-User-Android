@@ -11,12 +11,14 @@ import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.adapters.ReceiptAdapter;
+import ir.sq.apps.squserside.controllers.UserHandler;
 import ir.sq.apps.squserside.models.Receipt;
+import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,6 +53,12 @@ public class ReceiptsFragment extends Fragment {
     private Scene startScene, endScene;
     private Transition transition;
     private View receiptView;
+    private Receipt receipt;
+    TextView txtClubName;
+    TextView txtClubLoc;
+    TextView txtClubDate;
+    TextView txtClubTime;
+    TextView txtClubPrice;
 
     public ReceiptsFragment() {
     }
@@ -72,6 +82,17 @@ public class ReceiptsFragment extends Fragment {
             startScene = Scene.getSceneForLayout(rootScene, R.layout.fragment_reciepts, getContext());
             endScene = Scene.getSceneForLayout(rootScene, R.layout.layout_receipt, getContext());
             transition = TransitionInflater.from(getActivity()).inflateTransition(R.transition.test);
+            endScene.setEnterAction(new Runnable() {
+                @Override
+                public void run() {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        View view = endScene.getSceneRoot();
+                        findView(view);
+                        setFonts();
+                        setFields();
+                    }
+                }
+            });
         }
         setItems();
         setOnClick();
@@ -81,41 +102,21 @@ public class ReceiptsFragment extends Fragment {
         return view;
     }
 
+    private void setFields() {
+        txtClubName.setText(receipt.getClubName());
+        txtClubPrice.setText(receipt.getPrice() + " " + getResources().getString(R.string.currency_string));
+        txtClubLoc.setText(receipt.getClubAdress());
+        txtClubDate.setText(receipt.getDate());
+        txtClubTime.setText(receipt.getTime());
+    }
+
     private void setOnClick() {
         onClick = new ReceiptAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                final Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.circle_animation);
-                final View v = receiptView.findViewById(R.id.place_animator_view);
+                receipt = items.get(position);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     TransitionManager.go(endScene, transition);
-                    transition.addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            v.startAnimation(animation);
-
-                        }
-
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionPause(Transition transition) {
-
-                        }
-
-                        @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
-                    });
                 }
             }
         };
@@ -127,6 +128,21 @@ public class ReceiptsFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    private void findView(View view) {
+        txtClubName = view.findViewById(R.id.txtClubName);
+        txtClubLoc = view.findViewById(R.id.txtClubLoc);
+        txtClubDate = view.findViewById(R.id.txtClubDate);
+        txtClubTime = view.findViewById(R.id.txtClubTime);
+        txtClubPrice = view.findViewById(R.id.txtClubPrice);
+    }
+    private void setFonts(){
+        txtClubName.setTypeface(TypeFaceHandler.getInstance(getActivity()).getFa_light());
+        txtClubLoc.setTypeface(TypeFaceHandler.getInstance(getActivity()).getFa_light());
+        txtClubDate.setTypeface(TypeFaceHandler.getInstance(getActivity()).getFa_light());
+        txtClubTime.setTypeface(TypeFaceHandler.getInstance(getActivity()).getFa_light());
+        txtClubPrice.setTypeface(TypeFaceHandler.getInstance(getActivity()).getFa_light());
     }
 
     @Override
@@ -160,7 +176,7 @@ public class ReceiptsFragment extends Fragment {
         items = new ArrayList<>();
         items.add(new Receipt(50000, "1397/4/2", "باشگاه نمونه 1"));
         items.add(new Receipt(20000, "1397/7/2", "باشگاه نمونه 2"));
-        items.add(new Receipt(8000, "1396/5/18", "باشگاه نمونه 3"));
-        items.add(new Receipt(100000, "1394/2/2", "باشگاه نمونه 4"));
+        items.addAll(UserHandler.getInstance().getUser().getReceiptList());
     }
+
 }

@@ -1,8 +1,9 @@
 package ir.sq.apps.squserside.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class User  {
+public class User {
 
 
     private Long id;
@@ -10,17 +11,21 @@ public class User  {
     private String userName = "";
     private String passWord = "";
     private String email = "";
-
     private List<Receipt> receiptList;
 
     private List<Transaction> transaction;
-    public User(String name, String userName, String passWord, String email) {
+
+    public User(Long id, String name, String userName, String passWord, String email) {
         this.name = name;
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
+        receiptList = new ArrayList<>();
+        this.id = id;
     }
-    public User(){
+
+    public User() {
+        receiptList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -77,5 +82,9 @@ public class User  {
 
     public void setTransaction(List<Transaction> transaction) {
         this.transaction = transaction;
+    }
+
+    public void addReceipt(Receipt receipt) {
+        receiptList.add(receipt);
     }
 }
