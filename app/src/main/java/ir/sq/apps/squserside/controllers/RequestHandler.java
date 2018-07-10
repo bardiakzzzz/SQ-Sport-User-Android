@@ -85,6 +85,7 @@ public class RequestHandler {
                             setReceipts(receipts, user);
                             user.setUserName(userObject.getString("userName"));
                             user.setEmail(userObject.getString("email"));
+                            user.setCredit(userObject.getDouble("credit"));
                             user.setName("محمد");
                             user.setId(userObject.getLong("id"));
                             UserHandler.getInstance().setUser(user);

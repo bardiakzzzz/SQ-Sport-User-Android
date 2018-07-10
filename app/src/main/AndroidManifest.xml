@@ -32,7 +32,8 @@
 
         </activity>
         <activity android:name=".activities.UserProfileActivity" />
-        <activity android:name=".activities.ReserveActivity"></activity>
+        <activity android:name=".activities.ReserveActivity" />
+        <activity android:name=".activities.MapsActivity" />
     </application>
 
 </manifest>

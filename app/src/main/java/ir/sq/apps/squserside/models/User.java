@@ -14,6 +14,7 @@ public class User {
     private List<Receipt> receiptList;
 
     private List<Transaction> transaction;
+    private double credit;
 
     public User(Long id, String name, String userName, String passWord, String email) {
         this.name = name;
@@ -86,5 +87,13 @@ public class User {
 
     public void addReceipt(Receipt receipt) {
         receiptList.add(receipt);
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
+
+    public double getCredit() {
+        return credit;
     }
 }

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -26,8 +27,11 @@ import ir.sq.apps.squserside.R;
 import ir.sq.apps.squserside.controllers.ClubHandler;
 import ir.sq.apps.squserside.controllers.PlanHandler;
 import ir.sq.apps.squserside.controllers.RequestHandler;
+import ir.sq.apps.squserside.controllers.UserHandler;
 import ir.sq.apps.squserside.models.Club;
 import ir.sq.apps.squserside.models.Plan;
+import ir.sq.apps.squserside.models.Receipt;
+import ir.sq.apps.squserside.models.User;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import ir.sq.apps.squserside.utils.Constants;
 import ir.sq.apps.squserside.views.MonthLoader;
@@ -40,10 +44,6 @@ public class ReserveActivity extends AppCompatActivity implements MonthLoader.Mo
     WeekView weekView;
     @BindView(R.id.container)
     LinearLayout container;
-    @BindView(R.id.toolbarTitle)
-    TextView toolbarTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     private Club club;
     private Scene startScene, endScene;
     private Transition transition;
@@ -104,10 +104,10 @@ public class ReserveActivity extends AppCompatActivity implements MonthLoader.Mo
     }
 
     private void setToolbar() {
-        setSupportActionBar(toolbar);
-        setTitle("");
-        toolbarTitle.setText("برنامه زمان بندی سانس ها");
-        toolbarTitle.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
+//        setSupportActionBar(toolbar);
+//        setTitle("");
+//        toolbarTitle.setText("برنامه زمان بندی سانس ها");
+//        toolbarTitle.setTypeface(TypeFaceHandler.getInstance(this).getFa_light());
     }
 
     private void findViews(View root) {
@@ -128,18 +128,28 @@ public class ReserveActivity extends AppCompatActivity implements MonthLoader.Mo
         planDateTextView.setText(plan.getDate());
         String time[] = plan.getTime().split("-");
         planTimeTextView.setText("شروع سانس: " + time[0] + " پایان سانس: " + time[1]);
-        finish();
+//        finish();
         btnReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                plan.setStatus(Constants.PLAN_RESERVED);
                 RequestHandler.reserve(club, plan, ReserveActivity.this, new RequestHandler.OnResponseTransfer() {
                     @Override
                     public Intent go() {
+                        Toast.makeText(ReserveActivity.this, "رزرو با موفقیت انجام شد", Toast.LENGTH_SHORT).show();
+                        createReceipt();
+                        finish();
                         return new Intent(ReserveActivity.this, NavHolderActivity.class);
                     }
                 });
             }
         });
+    }
+
+    private void createReceipt() {
+        Receipt receipt = new Receipt(plan.getPrice(), plan.getDate(), plan.getTime(), club.getName(), club.getAddress());
+        UserHandler.getInstance().getUser().setCredit(UserHandler.getInstance().getUser().getCredit() - plan.getPrice());
+        UserHandler.getInstance().getUser().addReceipt(receipt);
     }
 
     private void setFonts() {

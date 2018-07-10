@@ -10,7 +10,7 @@ public enum UrlHandler {
     reserveUrl("api/reserve");
 
     private String url;
-    private String baseUrl = "http://192.168.1.102:8080/";
+    private String baseUrl = "http://192.168.43.191:8080/";
 
     private UrlHandler(String url) {
         this.url = url;

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,6 +26,7 @@ import ir.sq.apps.squserside.uiControllers.TagsListAdapter;
 import ir.sq.apps.squserside.uiControllers.TypeFaceHandler;
 import ir.sq.apps.squserside.utils.Constants;
 import ss.com.bannerslider.Slider;
+import ss.com.bannerslider.adapters.SliderAdapter;
 import ss.com.bannerslider.viewholder.ImageSlideViewHolder;
 
 public class ClubProfileActivity extends AppCompatActivity {
@@ -44,6 +46,8 @@ public class ClubProfileActivity extends AppCompatActivity {
     LinearLayout layoutStars;
     @BindView(R.id.btnShowPlan)
     Button btnShowPlan;
+    @BindView(R.id.btnLoc)
+    ImageView btnLoc;
 
     private Club club;
     private int id;
@@ -124,14 +128,21 @@ public class ClubProfileActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btnShowPlan)
-    public void onViewClicked() {
-        Intent intent = new Intent(ClubProfileActivity.this, ReserveActivity.class);
-        intent.putExtra(Constants.CLUB_INTENT_NAME, id);
-        startActivity(intent);
+    @OnClick({R.id.btnLoc, R.id.btnShowPlan})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btnLoc:
+                startActivity(new Intent(ClubProfileActivity.this, MapsActivity.class));
+                break;
+            case R.id.btnShowPlan:
+                Intent intent = new Intent(ClubProfileActivity.this, ReserveActivity.class);
+                intent.putExtra(Constants.CLUB_INTENT_NAME, id);
+                startActivity(intent);
+                break;
+        }
     }
 
-    private class MySliderAdapter extends ss.com.bannerslider.adapters.SliderAdapter {
+    private class MySliderAdapter extends SliderAdapter {
 
         @Override
         public int getItemCount() {

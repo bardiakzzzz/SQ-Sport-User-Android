@@ -48,6 +48,8 @@ public class UserProfileActivity extends AppCompatActivity {
             nameTextView.setText(user.getName());
             userNameTextView.setText(user.getUserName());
             emailTextView.setText(user.getEmail());
+            balanceTextView.setText(user.getCredit() + " " + getResources().getString(R.string.currency_string));
+
         } else {
             throw new NullPointerException("User Is Null");
         }
